@@ -30,6 +30,13 @@ THE SOFTWARE.
 #include "testdata.h"
 #include "makepath.h"
 
+/*
+ * Display the expected and generated command lists side by side in numeric form.
+ * Displaying mnemonics would not be appropriate since the output may have no
+ * corresponding mnemonic if there is an error.
+ * One command is shown per line and any line that does not match
+ * is highlighted.
+ */
 static void listComparison(COMMAND *pExpected, COMMAND *pActual, size_t n) {
   COMMAND c1;
   COMMAND c2;
@@ -43,6 +50,18 @@ static void listComparison(COMMAND *pExpected, COMMAND *pActual, size_t n) {
   }
 }
 
+
+/*
+ * for each test pair in the test data list, use the input data to generate a
+ * set of commands for the output path.
+ * Each generated command list is then compared with the expected command
+ * list.
+ * the status of each comparison is displayed.
+ * If they fail to match an additional list of paired expected and generated
+ * values is shown.
+ * The test does not stop when it encounters a failure since the same code error
+ * may affect several test.
+ */
 static int runTestsDiagonal(void) {
   int errorPos;
   int failCount = 0;
